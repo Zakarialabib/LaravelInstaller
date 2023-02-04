@@ -1,8 +1,22 @@
 #!/bin/bash
 
-# Set up Laravel project
+# Set up myStockMaster
 
-composer create-project --prefer-dist laravel/laravel project_name
+if [ ! -d "myStockMaster" ]; then
 
-echo "Laravel project has been set up."
+git clone https://github.com/Zakarialabib/myStockMaster.git myStockMaster
 
+cd myStockMaster
+
+composer install
+echo "composer packages installed."
+npm install
+echo "node modules installed."
+
+
+echo "myStockMaster has been set up."
+echo '---------------------'
+else
+echo "myStockMaster is already set up."
+echo '---------------------'
+fi

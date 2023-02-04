@@ -1,27 +1,20 @@
 #!/bin/bash
 
-# Check for necessary dependencies
+missing_dependencies=0
 
-php -v 
+check_dependency() {
+  hash "$1" 2>/dev/null || {
+    echo "$2 is not installed."
+    missing_dependencies=1
+  }
+}
 
-if ! command -v apache2 > /dev/null; then
-  echo "Apache2 is not installed."
-  missing_dependencies=1
-fi
+check_dependency apache2 "Apache2"
+check_dependency php "PHP"
+check_dependency phpmyadmin "PHPMyAdmin"
 
-if ! command -v php > /dev/null; then
-  echo "PHP is not installed."
-  missing_dependencies=1
-fi
-
-if ! command -v phpmyadmin > /dev/null; then
-  echo "PHPMyAdmin is not installed."
-  missing_dependencies=1
-fi
-
-if [ -z "$missing_dependencies" ]; then
+if [ "$missing_dependencies" -eq 0 ]; then
   echo "All dependencies are installed."
 else
   echo "Some dependencies are missing."
 fi
-

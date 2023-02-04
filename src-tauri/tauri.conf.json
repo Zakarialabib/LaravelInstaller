@@ -7,8 +7,8 @@
     "withGlobalTauri": false
   },
   "package": {
-    "productName": "LaravelInstaller",
-    "version": "0.0.0"
+    "productName": "laravel-installer",
+    "version": "0.0.1"
   },
   "tauri": {
     "allowlist": {
@@ -24,16 +24,35 @@
       "sidecar": true,
       "open": true,
       "scope": [ 
-        { "name": "check_dependencies", "cmd": "sh", "args": ["./src/scripts/check_dependencies.sh"] },
-        { "name": "install_dependencies", "cmd": "sh", "args": ["./src/scripts/install_dependencies.sh"] },
-        { "name": "set_up_laravel", "cmd": "sh", "args": ["./src/scripts/set_up_laravel.sh"] },
-        { "name": "configure_server", "cmd": "sh", "args": ["./src/scripts/configure_server.sh"] },
-        { "name": "complete_installation", "cmd": "sh", "args": ["./src/scripts/complete_installation.sh"] },
-        { "name": "launch_project", "cmd": "sh", "args": ["./src/scripts/launch_project.sh"] },
         {
-          "name": "run-git-commit",
-          "cmd": "git",
-          "args": ["commit", "-m", { "validator": "\\S+" }]
+          "name": "check_dependencies",
+          "cmd": "sh",
+          "args": ["/Applications/MAMP/htdocs/LaravelInstaller/src/scripts/check_dependencies.sh", { "validator": "\\S+" }]
+        },
+        {
+          "name": "install_dependencies",
+          "cmd": "sh",
+          "args": ["/Applications/MAMP/htdocs/LaravelInstaller/src/scripts/install_dependencies.sh", { "validator": "\\S+" }]
+        },
+        {
+          "name": "set_up_laravel",
+          "cmd": "sh",
+          "args": ["/Applications/MAMP/htdocs/LaravelInstaller/src/scripts/set_up_laravel.sh", { "validator": "\\S+" }]
+        },
+        {
+          "name": "configure_server",
+          "cmd": "sh",
+          "args": ["/Applications/MAMP/htdocs/LaravelInstaller/src/scripts/configure_server.sh", { "validator": "\\S+" }]
+        },
+        {
+          "name": "complete_installation",
+          "cmd": "sh",
+          "args": ["/Applications/MAMP/htdocs/LaravelInstaller/src/scripts/complete_installation.sh", { "validator": "\\S+" }]
+        },
+        {
+          "name": "launch_project",
+          "cmd": "sh",
+          "args": ["/Applications/MAMP/htdocs/LaravelInstaller/src/scripts/launch_project.sh", { "validator": "\\S+" }]
         }
        ]
       }
@@ -53,7 +72,7 @@
         "icons/icon.icns",
         "icons/icon.ico"
       ],
-      "identifier": "com.laravelInstaller.dev",
+      "identifier": "com.laravelinstaller.dev",
       "longDescription": "",
       "macOS": {
         "entitlements": null,
@@ -82,8 +101,9 @@
         "fullscreen": false,
         "height": 600,
         "resizable": true,
-        "title": "LaravelInstaller",
-        "width": 800
+        "title": "laravelInstaller",
+        "width": 800,
+        "focus": true
       }
     ]
   }
