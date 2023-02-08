@@ -60,7 +60,7 @@
     "bundle": {
       "active": true,
       "category": "DeveloperTool",
-      "copyright": "",
+      "copyright": "@2023 Zakaria Labib",
       "deb": {
         "depends": []
       },
@@ -101,8 +101,8 @@
         "fullscreen": false,
         "height": 600,
         "resizable": true,
-        "title": "laravelInstaller",
-        "width": 800,
+        "title": "Laravel Installer",
+        "width": 1000,
         "focus": true
       }
     ]
