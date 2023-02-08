@@ -10,8 +10,10 @@ cd myStockMaster
 
 composer install
 echo "composer packages installed."
+echo '---------------------'
 npm install
 echo "node modules installed."
+echo '---------------------'
 
 
 echo "myStockMaster has been set up."
