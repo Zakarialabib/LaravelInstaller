@@ -8,10 +8,12 @@
   let pid = null;
   let status = "";
 
-  const windows = navigator.userAgent.includes("Windows");
-  let cmd = windows ? "cmd" : "sh";
-
   const steps = [
+    {
+      name: "Overview",
+      description: "This is an installer for myStockMaster",
+      action: installerOverview,
+    },
     {
       name: "Check for Dependencies",
       description: "Check if necessary dependencies are installed",
@@ -66,15 +68,19 @@
     try {
       stepData = await step.action();
       currentStep++;
-      status = `Step ${stepIndex + 1} succeeded`;
-      console.log(`Step ${stepIndex + 1} succeeded:`, stepData);
+      status = `Step ${stepIndex + 0} succeeded`;
+      console.log(`Step ${stepIndex + 0} succeeded:`, stepData);
     } catch (e) {
-      console.error(`Step ${stepIndex + 1} failed:`, e);
-      status = `Step ${stepIndex + 1} failed`;
+      console.error(`Step ${stepIndex + 0} failed:`, e);
+      status = `Step ${stepIndex + 0} failed`;
       stepData = e.message;
     }
   }
   
+  async function installerOverview()
+  {
+    // 
+  }
 
   async function checkDependencies() {
     const result = new Command("check_dependencies", [
@@ -185,24 +191,26 @@
   }
   $: progress = (currentStep / steps.length) * 100;
 
-  
 </script>
 
 <main>
   <div class="container">
-    <p>Step {currentStep + 1} of {steps.length}: {steps[currentStep].name}</p>
-    <p>{steps[currentStep].description}</p>
+    <header class="fle space-between align-center mb-5">
+      <p>Step {currentStep } of {steps.length}: {steps[currentStep].name}</p>
+      <p>{steps[currentStep].description}</p>
+    </header>
     <div class="progress-bar">
       <div class="progress-bar-fill" style="width: {progress}%" />
-    </div>
-  
-        
+    </div>   
 
+    
     {#if stepData !== null}
-        <p>
-        Pid: {pid} <br>
-        <code>{log.join("\n")}</code>
-        </p>
+    <footer class="fle space-between align-center mb-5">
+    <p>
+    Pid: {pid} <br>
+    <code class="bg-black text-green-500 p-10 overflow-y-scroll h-56">{log.join("\n")}</code>
+    </p>
+
       <p
         class={stepData === true
           ? "status-success"
@@ -216,6 +224,7 @@
         {#if typeof stepData === "string"} Error: {stepData}. {/if}
       </p>
       <button on:click={() => executeStep(currentStep + 1)}>Next</button>
+    </footer>
     {/if}
   </div>
 </main>
