@@ -4,7 +4,8 @@
   import { Command } from "@tauri-apps/api/shell";
   import { confirm } from "@tauri-apps/api/dialog";
 
-  let log = "";
+  let log = [];
+  let pid = null;
   let status = "";
 
   const windows = navigator.userAgent.includes("Windows");
@@ -80,12 +81,14 @@
       "sh",
       "./src/scripts/check_dependencies.sh",
     ]);
-    const output = await result.execute();
-
-    output.code === 0;
-    output.signal === null;
-    log = output.stdout;
-    console.log(log);
+    result.stdout.on("data", (line) => {
+      if (line) {
+        log = [...log, line];
+      }
+    });
+      const child = await result.spawn();
+      pid = child.pid;
+      console.log(log);
   }
 
   async function installDependencies() {
@@ -99,10 +102,13 @@
         "sh",
         "./src/scripts/install_dependencies.sh",
       ]);
-      const output = await result.execute();
-      output.code === 0;
-      output.signal === null;
-      log = output.stdout;
+      result.stdout.on("data", (line) => {
+      if (line) {
+        log = [...log, line];
+      }
+    });
+      const child = await result.spawn();
+      pid = child.pid;
       console.log(log);
     }
   }
@@ -112,11 +118,14 @@
       "sh",
       "./src/scripts/set_up_laravel.sh",
     ]);
-    const output = await result.execute();
-    output.code === 0;
-    output.signal === null;
-    log = output.stdout;
-    console.log(log);
+     result.stdout.on("data", (line) => {
+      if (line) {
+        log = [...log, line];
+      }
+    });
+      const child = await result.spawn();
+      pid = child.pid;
+      console.log(log);
   }
 
   async function configureServer() {
@@ -124,11 +133,14 @@
       "sh",
       "./src/scripts/configure_server.sh",
     ]);
-    const output = await result.execute();
-    output.code === 0;
-    output.signal === null;
-    log = output.stdout;
-    console.log(log);
+     result.stdout.on("data", (line) => {
+      if (line) {
+        log = [...log, line];
+      }
+    });
+      const child = await result.spawn();
+      pid = child.pid;
+      console.log(log);
   }
 
   async function completeInstallation() {
@@ -136,11 +148,14 @@
       "sh",
       "./src/scripts/complete_installation.sh",
     ]);
-    const output = await result.execute();
-    output.code === 0;
-    output.signal === null;
-    log = output.stdout;
-    console.log(log);
+     result.stdout.on("data", (line) => {
+      if (line) {
+        log = [...log, line];
+      }
+    });
+      const child = await result.spawn();
+      pid = child.pid;
+      console.log(log);
   }
 
   async function provideFeedback() {
@@ -159,9 +174,14 @@
       "./src/scripts/launch_project.sh",
     ]);
     const output = await result.execute();
-    output.code === 0;
-    output.signal === null;
-    log = output.stdout;
+     result.stdout.on("data", (line) => {
+      if (line) {
+        log = [...log, line];
+      }
+    });
+    const child = await result.spawn();
+    pid = child.pid;
+    console.log(log);
   }
   $: progress = (currentStep / steps.length) * 100;
 
@@ -175,10 +195,14 @@
     <div class="progress-bar">
       <div class="progress-bar-fill" style="width: {progress}%" />
     </div>
-    <p>
-      {log}
-    </p>
+  
+        
+
     {#if stepData !== null}
+        <p>
+        Pid: {pid} <br>
+        <code>{log.join("\n")}</code>
+        </p>
       <p
         class={stepData === true
           ? "status-success"
